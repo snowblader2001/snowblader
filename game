@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<body style="color:#349201; background-color:black; text-shadow: 2px 2px 1px #5cfc04; font-size: 40px; font: impact;">
+
+<p id='statement'></p>
+<p id='statement1'></p>
+
+<button id='my-button' onclick="buttonYes();">Yes</button>&nbsp;&nbsp;&nbsp;
+<button id='my-button2' onclick="buttonNo();">No</button>
+<input type='text' id='number' size='2' name='number'>
+<button id='numberGuess' onclick='calculate();'>Guess</button>
+
+<br><br><br><br><br><button id='values' onclick="myButton();">values</button>
+
+
+<script>
+
+document.getElementById('numberGuess').style.display = "none";
+document.getElementById('my-button').style.display = "none";
+document.getElementById('my-button2').style.display = "none";
+document.getElementById('number').style.display = "none";
+document.getElementById('values').style.display = "none";
+
+var theDeleting;
+var theWriting;
+let userGuess;
+let tries;
+let num = Math.round(Math.random()*10);
+let sum = 3;
+let x;
+let y;
+let a = "_";
+let m = 1;
+let i = 0;
+let b;
+let words = "Hello! Would you like to play a game?";
+let phrase1 = "I'm thinking of a number between zero and ten.";
+let phrase2 = "Too bad, you're playing anyway.";
+let phrase3 = "You have three tries to guess my number.";
+let phrase4 = "Your guess of "
+let phrase5 = " was too high. You have ";
+let phrase6 = " was too low. You have ";
+let phrase7;
+let phrase8 = "Congratulations! Your guess of ";
+let phrase9 = " was correct!";
+let phrase10 = " Would you like to play again?";
+let phrase11 = "Ya, you need to enter a number between zero and ten.";
+let phrase12 = "So...you know that's not even a number right?";
+let letter;
+
+var blinker = setInterval('blink()', 100);
+var theIntroWriting = setInterval('introWriting()', 100);
+var displayButton = setTimeout(display, 8000);
+
+function display(){
+   document.getElementById('my-button').style.display = "inline";
+   document.getElementById('my-button2').style.display = "inline";
+}
+
+function displayGuessing(){
+   document.getElementById('number').style.display = "inline";
+   document.getElementById('numberGuess').style.display = "inline";
+}
+
+function getNumber() {
+ num = Math.round(Math.random()*10); 
+ }
+
+function calculate() {
+  var number = document.getElementById("number").value;
+
+  if(number >= 0 && number <= 10){
+
+    if(number > num){
+     userGuess = document.getElementById('number').value;
+     document.getElementById('number').value = '';
+     sum -= 1;
+     clearInterval(theWriting);
+     theDeleting = setInterval('deleting()', 5);
+     b = 3;
+     }
+
+    if(number < num){
+     userGuess = document.getElementById('number').value;
+     document.getElementById('number').value = '';
+     sum -= 1;
+     clearInterval(theWriting);
+     theDeleting = setInterval('deleting()', 5);
+     b = 4;
+     }
+
+
+   if(number == num){
+     userGuess = document.getElementById('number').value;
+     document.getElementById('numberGuess').style.display = "none";
+     document.getElementById('number').style.display = "none";
+     sum = 3;
+     document.getElementById('number').value = '';
+     clearInterval(theWriting);
+     theDeleting = setInterval('deleting()', 5);
+     b = 5;
+     }
+   }
+
+
+  if(number < 0 || number > 10) {
+     document.getElementById('number').value = '';
+     clearInterval(theWriting);
+     theDeleting = setInterval('deleting()', 5);
+     b = 6;
+     }
+
+  if(isNaN(number) == true) {
+     document.getElementById('number').value = '';
+     clearInterval(theWriting);
+     theDeleting = setInterval('deleting()', 5);
+     b = 7;
+  }
+
+  if(sum == 2)
+     tries = 'two more guesses left.';
+
+  if(sum == 1)
+     tries = 'one more guess left.';
+
+  if(sum == 0) {
+     tries = 'no more guesses left. Would you like to play again?';
+     document.getElementById('numberGuess').style.display = "none";
+     document.getElementById('number').style.display = "none";
+    }
+}
+
+
+function blink(){
+
+
+  if(a == "_")
+     a = "";
+   
+  else 
+    a = "_";
+}
+
+function introWriting(){  
+
+if(i<20) {
+  document.getElementById('statement').innerHTML = a;
+  i += 1;
+}
+ if(i>=20 && i<40) {
+   letter = words.substring(0, m);
+   document.getElementById('statement').innerHTML = letter + a;
+
+   if(m<6)
+       m += 1;
+    
+
+   if(m == 6)
+      i += 1;
+   
+
+   if(i==39) 
+      if(m<words.length)
+          m += 1;
+
+   
+    }
+
+}
+
+function deleting(){
+
+   letter = x.substring(0, m);
+   document.getElementById(y).innerHTML = letter + a;
+   m -= 1;
+
+   if(m == 0){
+       theWriting = setInterval('writing()', 100);
+       clearInterval(theDeleting);
+  }
+
+}
+
+function writing(){
+
+   if(b == 0){
+     x = phrase1;
+     y = 'statement';
+     
+     if(m == x.length){
+       b = 2;
+       m = 0;
+     }
+    }
+
+   if(b == 1){
+     x = phrase2;
+     y = 'statement';
+    }
+
+   if(b == 2){
+     x = phrase3;
+     y = 'statement1';
+
+       if(m == x.length)
+         displayGuessing();
+         
+    }
+
+   if(b == 3) {
+    phrase7 = phrase4.concat(userGuess, phrase5, tries);
+    x = phrase7;
+    }
+
+   if(b == 4) {
+    phrase7 = phrase4.concat(userGuess, phrase6, tries);
+    x = phrase7;
+    }
+
+   if(b == 5) {
+    phrase7 = phrase8.concat(userGuess, phrase9, phrase10);
+    x = phrase7;
+    }
+
+   if(b == 6) 
+    x = phrase11;
+    
+
+   if(b == 7) 
+    x = phrase12;
+    
+
+
+   letter = x.substring(0, m);
+   document.getElementById(y).innerHTML = letter + a;
+   
+   if(m < x.length)
+      m += 1;
+   
+   if(b == 1 && m == x.length){
+       i += 1;
+
+      if(i == 20){
+        clearInterval(theWriting);
+        b = 0;
+        theDeleting = setInterval('deleting()', 5);
+       }
+      }
+
+   if(b == 5 && m == x.length){
+      getNumber();
+      clearInterval(theWriting);
+      sum = 3;
+      display();
+      }
+
+   if(sum == 0 && m == x.length){
+      getNumber();
+      clearInterval(theWriting);
+      sum = 3;
+      display();
+     }
+        
+}
+
+function buttonYes() {
+  
+   document.getElementById('my-button').style.display = "none";
+   document.getElementById('my-button2').style.display = "none";
+   clearInterval(theIntroWriting);
+   if(b == 5 || b == 4 || b == 3){
+    document.getElementById('statement1').innerHTML = '';
+    x = phrase1;
+    }
+    else
+      x = words;
+
+   theDeleting = setInterval('deleting()', 5);
+   b = 0;
+   i = 0;
+   y = 'statement';
+    
+   
+}
+
+function buttonNo() {
+  
+   document.getElementById('my-button').style.display = "none";
+   document.getElementById('my-button2').style.display = "none";
+   clearInterval(theIntroWriting);
+   if(b == 5 || b == 4 || b == 3){
+    document.getElementById('statement1').innerHTML = '';
+    x = phrase1;
+    }
+    else
+      x = words;
+
+   theDeleting = setInterval('deleting()', 5);
+   b = 1;
+   i = 0;
+   y = 'statement';
+}
+   
+
+function myButton() {
+  console.log('m is ' + m);
+  console.log('i is ' + i);
+  console.log('b is ' + b);
+  console.log('computers number is ' + num);
+  console.log('user guess is ' + userGuess);
+  console.log('tries left is ' + tries);
+  console.log('sum is ' + sum);
+
+}
+
+
+
+
+
+</script>
+</body>
+</html>
